@@ -1,3 +1,3 @@
 # ROps
 
-# 1. [!Linear](./linear/readme.md)
+# 1. [Linear](./linear/readme.md)
