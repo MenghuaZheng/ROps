@@ -4,10 +4,13 @@ import logging
 
 
 def CudaProfile(*function_with_args):
-    times = 20
+    times = 50
     for _ in range(times):
         for func, args in function_with_args:
             func(*args)
+    
+    torch.cuda.synchronize()
+    
     start_event = torch.cuda.Event(enable_timing=True)
     end_event = torch.cuda.Event(enable_timing=True)
 
@@ -15,9 +18,8 @@ def CudaProfile(*function_with_args):
     for _ in range(times):
         for func, args in function_with_args:
             func(*args)
+        torch.cuda.synchronize()
     end_event.record()
-    # 等待事件完成
-    torch.cuda.synchronize()
     elapsed_time = start_event.elapsed_time(end_event)  # 以毫秒为单位        
     return elapsed_time/times
 
